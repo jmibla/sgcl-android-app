@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">SGCLApp</string>
+
+    <string name="action_settings">Opciones</string>
+
+    <string name="scan">Leer código</string>
+    <string name="manual_scan">Buscar código</string>
+
+    <string name="barcode_search">Introduzca el código</string>
+
+</resources>

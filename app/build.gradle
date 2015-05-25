@@ -1,0 +1,30 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+    defaultConfig {
+        applicationId "project_sgcl.sgclapp"
+        minSdkVersion 17
+        targetSdkVersion 17
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    productFlavors {
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.google.zxing:android-integration:3.2.0'
+    compile 'com.android.support:appcompat-v7:22.1.1'
+    compile 'com.google.zxing:core:3.2.0'
+    compile 'com.github.kevinsawicki:http-request:6.0'
+    compile 'com.google.code.gson:gson:2.3.1'
+}
