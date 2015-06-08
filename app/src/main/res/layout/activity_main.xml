@@ -7,7 +7,7 @@
     <EditText android:id="@+id/barcode_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
+        android:inputType="number"
         android:ems="10"
         android:hint="@string/barcode_search"
         android:layout_above="@+id/scan_button"
@@ -53,11 +53,4 @@
         android:layout_weight="1"
         android:drawSelectorOnTop="false"
         android:layout_below="@+id/productsFound" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/productsFound"
-        android:id="@android:id/empty"
-        android:text="SIN DATOS"
-        android:textStyle="bold" />
 </RelativeLayout>

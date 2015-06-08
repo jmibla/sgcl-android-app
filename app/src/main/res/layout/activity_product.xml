@@ -3,16 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-
     <TextView android:id="@+id/productCode"
         android:textSize="16sp"
         android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
     <TextView android:id="@+id/productName"
         android:textSize="16sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/productCode"/>
+    <TextView android:id="@+id/productNumberConsumerUnit"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/productName"/>
 </LinearLayout>

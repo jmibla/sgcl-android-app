@@ -1,11 +1,14 @@
 <resources>
     <string name="app_name">SGCLApp</string>
 
-    <string name="action_settings">Opciones</string>
+    <string name="action_settings">Configuración</string>
 
     <string name="scan">Leer código</string>
     <string name="manual_scan">Buscar código</string>
 
     <string name="barcode_search">Introduzca el código</string>
 
+    <string name="config_IP_server">Dirección IP del servidor</string>
+    <string name="about">Sobre AppSGCL</string>
+    <string name="exit">Cerrar aplicación</string>
 </resources>

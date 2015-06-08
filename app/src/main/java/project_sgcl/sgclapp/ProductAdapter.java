@@ -42,25 +42,7 @@ public class ProductAdapter extends BaseAdapter
         return items;
     }
 
-    /*@Override
-    public View getView(int position, View convertView, ViewGroup parent)
-    {
-        Product item = this.items.get(position);
 
-        View rowView = View.inflate(context, R.layout.activity_product, null);
-
-        // Set data into the view.
-
-        if (item != null)
-        {
-            TextView productCode = (TextView) rowView.findViewById(R.id.productCode);
-            TextView productName = (TextView) rowView.findViewById(R.id.productName);
-            productCode.setText(item.getCode());
-            productName.setText(item.getName());
-        }
-
-        return rowView;
-    }*/
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
@@ -68,18 +50,24 @@ public class ProductAdapter extends BaseAdapter
 
         if(convertView == null)
         {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(
+                    Context.LAYOUT_INFLATER_SERVICE
+            );
             rowView = inflater.inflate(R.layout.activity_product, parent, false);
         }
 
-        // Set data into the view.
-
         TextView productCode = (TextView) rowView.findViewById(R.id.productCode);
         TextView productName = (TextView) rowView.findViewById(R.id.productName);
+        TextView productNConsumerUnit = (TextView) rowView.findViewById(
+                R.id.productNumberConsumerUnit
+        );
 
         Product item = this.items.get(position);
         productCode.setText(item.getCode());
         productName.setText(item.getName());
+        productNConsumerUnit.setText(
+                "Agrupación: " + item.getNumberConsumerUnit() + " Unidades de Consumo"
+        );
 
         return rowView;
     }

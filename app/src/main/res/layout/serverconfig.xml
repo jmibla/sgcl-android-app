@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="IP del servidor:"
+        android:id="@+id/textIPServer"
+        android:layout_marginTop="29dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textPortServer" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:id="@+id/editIPServer"
+        android:layout_below="@+id/textIPServer"
+        android:layout_alignStart="@+id/prefServerBtn" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Puerto del servidor"
+        android:id="@+id/textPortServer"
+        android:layout_below="@+id/editIPServer"
+        android:layout_alignStart="@+id/editPortServer"
+        android:layout_marginTop="29dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/editPortServer"
+        android:layout_below="@+id/textPortServer"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Actualizar configuración"
+        android:id="@+id/prefServerBtn"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="75dp"
+        android:layout_below="@+id/editPortServer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="29dp" />
+
+</RelativeLayout>
