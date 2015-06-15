@@ -1,5 +1,6 @@
 package project_sgcl.sgclapp;
 
+import android.app.ActionBar;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -42,6 +43,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import android.support.v7.app.AppCompatActivity;
+
+import android.app.ActionBar;
 
 public class MainActivity extends Activity implements OnClickListener {
 
@@ -128,9 +131,11 @@ public class MainActivity extends Activity implements OnClickListener {
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        MenuInflater inflater = getMenuInflater();
+        //MenuInflater inflater = getMenuInflater();
         //menu.clear();
-        inflater.inflate(R.menu.menu_main, menu);
+        //inflater.inflate(R.menu.menu_main, menu);
+
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -152,7 +157,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
                 //serverConfiguration();
 
-                getFragmentManager().beginTransaction().replace(android.R.id.content, new PrefsFragment()).commit();
+                getFragmentManager().beginTransaction().replace(android.R.id.content, new PrefsFragment(), "Configuracionnnn").commit();
 
                 Toast toast = Toast.makeText(
                         this,
