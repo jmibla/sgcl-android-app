@@ -5,10 +5,12 @@
         android:key="IPServer"
         android:title="IP del servidor"
         android:summary="Introduce la IP del servidor"
-        android:defaultValue="192.168.100.112"/>
+        android:defaultValue="0.0.0.0"
+        android:singleLine="true"/>
     <EditTextPreference
         android:key="PortServer"
         android:title="Puerto del servidor"
         android:summary="Introduce el puerto del servidor"
-        android:defaultValue="8008"/>
+        android:defaultValue="0"
+        android:singleLine="true"/>
 </PreferenceScreen>

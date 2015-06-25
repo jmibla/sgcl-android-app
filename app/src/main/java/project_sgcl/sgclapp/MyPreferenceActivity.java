@@ -9,10 +9,19 @@ import java.util.List;
 import java.util.prefs.Preferences;
 
 /**
- * Created by maria on 24/5/15.
+ * User: Joaquín & María * Date: 17/03/15
+ * Time: 10:16
  */
 
+
 public class MyPreferenceActivity extends  PreferenceActivity {
+
+    protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+
+            addPreferencesFromResource(R.xml.app_prefs);
+
+    }
 
     public static class PrefsFragment extends PreferenceFragment {
         @Override

@@ -10,5 +10,14 @@
 
     <string name="config_IP_server">Dirección IP del servidor</string>
     <string name="about">Sobre AppSGCL</string>
+    <string name="aboutAppSGCL">Esta aplicación móvil le permite buscar todos los productos del
+        sistema identificados por con el códigos de barras emplead en la búsqueda. Puede introducir
+        el código de barras de forma manual o automática (recuerde que debe tener instalado en
+        su sistema la aplicación Barcoe_Scanner).
+        </string>
+    <string name="aboutConfiguration">Su ADMINISTRADOR de sistemas, debería haberle entregado
+        la aplicación configurada con la IP y puerto del servidor. En caso contrario,
+        contacte con él.
+        </string>
     <string name="exit">Cerrar aplicación</string>
 </resources>

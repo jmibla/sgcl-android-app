@@ -1,6 +1,14 @@
+
+/**
+ * User: Joaquín & María * Date: 02/03/15
+ * Time: 20:12
+ */
+
 package project_sgcl.sgclapp;
 
 import android.app.ActionBar;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -58,8 +66,11 @@ public class MainActivity extends Activity implements OnClickListener {
     ListView lv;
     ProductAdapter productAdapter;
     String IP_SERVER, PORT_SERVER;
-    private String Pref_AppSGCL = "Pref_AppSGCL";
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,34 +88,43 @@ public class MainActivity extends Activity implements OnClickListener {
         productsFound = (TextView) findViewById(R.id.productsFound);
 
 
-        //SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        SharedPreferences preferences = getSharedPreferences(Pref_AppSGCL, Context.MODE_PRIVATE);
-        String IP_new = preferences.getString("IP_SERVER", "0.0.0.0");
-        String Port_new =  preferences.getString("PORT_SERVER", "80");
-        if(IP_new.equals("0.0.0.0") || Port_new.equals("80"))
-        {
-            Toast toast = Toast.makeText(
-                    this,
-                    "CONFIGURE IP Y PUERTO-",
-                    Toast.LENGTH_LONG
-            );
-            toast.show();
-        }
-        else
-        {
-            Toast toast = Toast.makeText(
-                    this,
-                    "- cambiannnnn -",
-                    Toast.LENGTH_LONG
-            );
-            toast.show();
-        }
 
+        ActionBar actionBar = getActionBar();
+        actionBar.setTitle("SGCL");
 
         products = new ArrayList<Product>();
         lv = (ListView) findViewById(R.id.listView);
         productAdapter = new ProductAdapter(this, products);
         lv.setAdapter(productAdapter);
+    }
+
+    /**
+     *
+     * @return boolean
+     *
+     * return true: if IP address and port server already configured
+     */
+    public boolean isAppConfigurated()
+    {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+        IP_SERVER = preferences.getString("IPServer", "0.0.0.0");
+        PORT_SERVER =  preferences.getString("PortServer", "0");
+        if(IP_SERVER.equals("0.0.0.0") || PORT_SERVER.equals("0"))
+        {
+            Toast toast = Toast.makeText(
+                    this,
+                    "Contracte con su ADMINISTRADOR para configurar la aplicación",
+                    Toast.LENGTH_LONG
+            );
+            toast.show();
+            return false;
+        }
+        else
+        {
+            //IP address and port server already configured
+            return true;
+        }
     }
 
 
@@ -124,21 +144,31 @@ public class MainActivity extends Activity implements OnClickListener {
         {
             super.onCreate(savedInstanceState);
 
-            getFragmentManager().beginTransaction().replace(android.R.id.content, new PrefsFragment()).commit();
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.add(android.R.id.content, new PrefsFragment());
+            ft.commit();
         }
     }
 
+
+    /**
+     *
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        //MenuInflater inflater = getMenuInflater();
-        //menu.clear();
-        //inflater.inflate(R.menu.menu_main, menu);
-
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+
+        return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     *
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -149,31 +179,9 @@ public class MainActivity extends Activity implements OnClickListener {
         {
             //case R.id.config_IP_server:
             case R.id.action_settings:
-                //inputIP_SERVER = (EditText) findViewById(R.id.config_IP_server);
-                //IP_SERVER = inputIP_SERVER.getText().toString();
-                //REVISARRRRRRRRRRRRRRRRRRRRRRRRRRRRR
-                ////////////IPServerBtn = (Button) findViewById(R.id.action_settings);
-                //IPServerBtn.setOnClickListener();
-
-                //serverConfiguration();
-
-                getFragmentManager().beginTransaction().replace(android.R.id.content, new PrefsFragment(), "Configuracionnnn").commit();
-
-                Toast toast = Toast.makeText(
-                        this,
-                        "- estoy en IPSERVER -",
-                        Toast.LENGTH_LONG
-                );
-                toast.show();
+                startActivity(new Intent(this, MyPreferenceActivity.class));
                 return true;
             case R.id.about:
-                //showAbout(); programarrrrrrrrrrrrrrrrr
-                Toast toast2 = Toast.makeText(
-                        this,
-                        "- estoy en ABOUT -",
-                        Toast.LENGTH_LONG
-                );
-                toast2.show();
                 return true;
             case R.id.exit:
                 finish();
@@ -183,78 +191,60 @@ public class MainActivity extends Activity implements OnClickListener {
         }
     }
 
-    public void showAbout()
-    {
-    }
-
-    public void serverConfiguration()
-    {
-        setContentView(R.layout.serverconfig);
-
-        inputIP_SERVER = (EditText) findViewById(R.id.editIPServer);
-        inputPort_SERVER = (EditText) findViewById(R.id.editPortServer);
-        IP_SERVER = inputIP_SERVER.getText().toString();
-        PORT_SERVER = inputPort_SERVER.getText().toString();
-
-        PrefServerBtn = (Button) findViewById(R.id.prefServerBtn);
-        PrefServerBtn.setOnClickListener(this);
-
-        Toast toast = Toast.makeText(
-                this,
-                "introducisteeeee -> " + IP_SERVER + PORT_SERVER,
-                Toast.LENGTH_LONG
-        );
-        toast.show();
-
-    }
-
-
+    /**
+     *
+     * @param v
+     */
     public void onClick(View v)
     {
-        if(v.getId() == R.id.scan_button)
-        {
-            IntentIntegrator scanIntegrator = new IntentIntegrator(this);
-            scanIntegrator.initiateScan();
-        }
-        if (v.getId() == R.id.enter_manual_barcode)
-        {
-            inputBarcode = barcode_search.getText().toString();
-            if (inputBarcode.isEmpty()) {
-                Toast toast = Toast.makeText(
-                        this,
-                        "RECUERDA INTRODUCIR EL CÓDIGO",
-                        Toast.LENGTH_LONG
-                );
-                toast.show();
+        if(isAppConfigurated()) {
+            if (v.getId() == R.id.scan_button) {
+                IntentIntegrator scanIntegrator = new IntentIntegrator(this);
+                scanIntegrator.initiateScan();
             }
-            else
-            {
-                int lengthBarcode = inputBarcode.length();
-                if(lengthBarcode==12 || lengthBarcode == 13 || lengthBarcode == 14)
-                {
-                    formatTxt.setText("");
-                    contentTxt.setText("CODIGO: " + inputBarcode);
-                    searchProduct(inputBarcode);
-                }
-                else
-                {
+            if (v.getId() == R.id.enter_manual_barcode) {
+                inputBarcode = barcode_search.getText().toString();
+                if (inputBarcode.isEmpty()) {
                     Toast toast = Toast.makeText(
                             this,
-                            "RECUERDA QUE LA LONGUITD DEL CÓDIGO DEBE SER 12, 13 o 14 dígitos",
+                            "RECUERDA INTRODUCIR EL CÓDIGO",
                             Toast.LENGTH_LONG
                     );
                     toast.show();
+                } else {
+                    int lengthBarcode = inputBarcode.length();
+                    if (lengthBarcode == 12 || lengthBarcode == 13 || lengthBarcode == 14) {
+                        formatTxt.setText("");
+                        contentTxt.setText("CODIGO: " + inputBarcode);
+                        searchProduct(inputBarcode);
+                    } else {
+                        Toast toast = Toast.makeText(
+                                this,
+                                "RECUERDA QUE LA LONGUITD DEL CÓDIGO DEBE SER 12, 13 o 14 dígitos",
+                                Toast.LENGTH_LONG
+                        );
+                        toast.show();
+                    }
                 }
             }
         }
-        if(v.getId() == R.id.prefServerBtn){
-            SharedPreferences preferences = getSharedPreferences(Pref_AppSGCL, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putString("IP_SERVER", IP_SERVER);
-            editor.putString("PORT_SERVER", PORT_SERVER);
+        else {
+            Toast toast = Toast.makeText(
+                    this,
+                    "Contacte con su ADMINISTRADOR, es necesario configurar la aplicación",
+                    Toast.LENGTH_LONG
+            );
+            toast.show();
+
         }
     }
 
+    /**
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param intent
+     */
     public void onActivityResult(int requestCode, int resultCode, Intent intent)
     {
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
@@ -268,12 +258,19 @@ public class MainActivity extends Activity implements OnClickListener {
         searchProduct(scanContent);
     }
 
+    /**
+     *
+     * @param barcode
+     */
     public void searchProduct(String barcode)
     {
-        //String IPserver = "192.168.43.234";
-        String IPserver = "192.168.100.112";
-        //String IPserver = "192.168.1.5";
-        String url = "http://" + IPserver + ":8008/app_dev.php/api/products/" + barcode;
+        String url = "http://"
+                        + IP_SERVER + ":" + PORT_SERVER
+                        + "/app_dev.php/api/products/"
+                        + barcode;
+        //String url = "http://192.168.100.112:8008"
+        //        + "/app_dev.php/api/products/"
+        //        + barcode;
         new LoadProductTask().execute(url);
     }
 
@@ -281,6 +278,11 @@ public class MainActivity extends Activity implements OnClickListener {
 
     private class LoadProductTask extends AsyncTask<String, Long, String>
     {
+        /**
+         *
+         * @param urls
+         * @return
+         */
         @Override
         protected String doInBackground(String... urls)
         {
@@ -293,9 +295,14 @@ public class MainActivity extends Activity implements OnClickListener {
             }
         }
 
+        /**
+         *
+         * @param response
+         */
         @Override
         protected void onPostExecute(String response)
         {
+            productAdapter.getItems().clear();
             products = prettyfyJSON(response);
 
             if (products.isEmpty())
@@ -315,14 +322,17 @@ public class MainActivity extends Activity implements OnClickListener {
                             + " productos en el sistema.");
                 }
 
-                productAdapter.getItems().clear();
                 productAdapter.getItems().addAll(products);
                 productAdapter.notifyDataSetChanged();
             }
         }
     }
 
-
+    /**
+     *
+     * @param json
+     * @return
+     */
     private List<Product> prettyfyJSON(String json) {
         Gson gson = new Gson();
         Type type = new TypeToken<ArrayList<Product>>(){}.getType();

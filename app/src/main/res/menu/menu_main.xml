@@ -15,10 +15,10 @@
         android:orderInCategory="3"
         app:showAsAction="never" >
         <menu>
-            <item android:id="@+id/nuevo"
-                android:title="__ip"/>
-            <item android:id="@+id/nuevoDos"
-                android:title="__puerto"/>
+            <item android:id="@+id/aboutAppSGCL"
+                android:title="@string/aboutAppSGCL"/>
+            <item android:id="@+id/aboutConfiguration"
+                android:title="@string/aboutConfiguration"/>
         </menu>
     </item>
     <item android:id="@+id/exit"
