@@ -30,6 +30,7 @@ import com.google.zxing.integration.android.IntentResult;
 
 import com.github.kevinsawicki.http.*;
 
+import java.io.IOException;
 import java.lang.*;
 import java.util.List;
 import java.lang.reflect.Type;
@@ -62,6 +63,7 @@ public class MainActivity extends Activity implements OnClickListener {
     private EditText inputProduct, inputIP_SERVER, inputPort_SERVER;
     private EditText barcode_search;
     private String inputBarcode = null;
+    public static String ErrorConnectingServer = "errorConnectionServer";
     List<Product> products;
     ListView lv;
     ProductAdapter productAdapter;
@@ -127,6 +129,20 @@ public class MainActivity extends Activity implements OnClickListener {
         }
     }
 
+    /**
+     *
+     */
+    public void showErrorConnectionServer()
+    {
+
+        Toast toast = Toast.makeText(
+                this,
+                "ERROR AL CONECTAR CON EL SERVIDOR:\n compruebe la conexión WIFI." +
+                        "\nContacte con su ADMINISTRADOR.",
+                Toast.LENGTH_LONG
+        );
+        toast.show();
+    }
 
     public static class PrefsFragment extends PreferenceFragment {
         @Override
@@ -170,19 +186,18 @@ public class MainActivity extends Activity implements OnClickListener {
      * @return
      */
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         switch (item.getItemId())
         {
-            //case R.id.config_IP_server:
+            //Config: set IP and server port
             case R.id.action_settings:
                 startActivity(new Intent(this, MyPreferenceActivity.class));
                 return true;
+            //About menu
             case R.id.about:
                 return true;
+            //Close program
             case R.id.exit:
                 finish();
                 return true;
@@ -197,7 +212,8 @@ public class MainActivity extends Activity implements OnClickListener {
      */
     public void onClick(View v)
     {
-        if(isAppConfigurated()) {
+        if(isAppConfigurated())
+        {
             if (v.getId() == R.id.scan_button) {
                 IntentIntegrator scanIntegrator = new IntentIntegrator(this);
                 scanIntegrator.initiateScan();
@@ -211,7 +227,8 @@ public class MainActivity extends Activity implements OnClickListener {
                             Toast.LENGTH_LONG
                     );
                     toast.show();
-                } else {
+                }
+                else {
                     int lengthBarcode = inputBarcode.length();
                     if (lengthBarcode == 12 || lengthBarcode == 13 || lengthBarcode == 14) {
                         formatTxt.setText("");
@@ -247,7 +264,11 @@ public class MainActivity extends Activity implements OnClickListener {
      */
     public void onActivityResult(int requestCode, int resultCode, Intent intent)
     {
-        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        IntentResult scanningResult = IntentIntegrator.parseActivityResult(
+                requestCode,
+                resultCode,
+                intent
+        );
 
         String scanContent = scanningResult.getContents();
         String scanFormat = scanningResult.getFormatName();
@@ -268,9 +289,6 @@ public class MainActivity extends Activity implements OnClickListener {
                         + IP_SERVER + ":" + PORT_SERVER
                         + "/app_dev.php/api/products/"
                         + barcode;
-        //String url = "http://192.168.100.112:8008"
-        //        + "/app_dev.php/api/products/"
-        //        + barcode;
         new LoadProductTask().execute(url);
     }
 
@@ -291,7 +309,11 @@ public class MainActivity extends Activity implements OnClickListener {
             }
             catch(HttpRequest.HttpRequestException e) {
                 //throw new RuntimeException("ERROR AL CONECTAR CON EL SERVIDOR: " + e.toString());
-                return null;
+              //  throw new RuntimeException(e.getMessage());
+                //return null;
+                //productsFound.setText(e.toString());
+                //return "error";
+                return ErrorConnectingServer;
             }
         }
 
@@ -302,28 +324,28 @@ public class MainActivity extends Activity implements OnClickListener {
         @Override
         protected void onPostExecute(String response)
         {
-            productAdapter.getItems().clear();
-            products = prettyfyJSON(response);
-
-            if (products.isEmpty())
+            if(response == ErrorConnectingServer)
             {
-                productsFound.setText("Actualmente este código no está asignado "
-                        + "a ninguno de nuestros productos");
+                showErrorConnectionServer();
             }
-            else
-            {
-                if (products.size() == 1)
-                {
-                    productsFound.setText("Se ha encontrado un solo producto en el sistema.");
-                }
-                else
-                {
-                    productsFound.setText("Se han encontrado " + products.size()
-                            + " productos en el sistema.");
-                }
+            else {
+                productAdapter.getItems().clear();
+                products = prettyfyJSON(response);
 
-                productAdapter.getItems().addAll(products);
-                productAdapter.notifyDataSetChanged();
+                if (products.isEmpty()) {
+                    productsFound.setText("Actualmente este código no está asignado "
+                            + "a ninguno de nuestros productos");
+                } else {
+                    if (products.size() == 1) {
+                        productsFound.setText("Se ha encontrado un solo producto en el sistema.");
+                    } else {
+                        productsFound.setText("Se han encontrado " + products.size()
+                                + " productos en el sistema.");
+                    }
+
+                    productAdapter.getItems().addAll(products);
+                    productAdapter.notifyDataSetChanged();
+                }
             }
         }
     }
