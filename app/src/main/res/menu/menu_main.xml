@@ -6,13 +6,9 @@
         android:title="@string/action_settings"
         android:orderInCategory="100"
         app:showAsAction="never" />
-    <EditText android:id="@+id/config_IP_server"
-        android:title="@string/config_IP_server"
-        android:orderInCategory="2"
-        app:showAsAction="never" />
     <item android:id="@+id/about"
         android:title="@string/about"
-        android:orderInCategory="3"
+        android:orderInCategory="2"
         app:showAsAction="never" >
         <menu>
             <item android:id="@+id/aboutAppSGCL"
@@ -23,6 +19,6 @@
     </item>
     <item android:id="@+id/exit"
         android:title="@string/exit"
-        android:orderInCategory="4"
+        android:orderInCategory="1"
         app:showAsAction="never" />
 </menu>

@@ -57,10 +57,9 @@ import android.app.ActionBar;
 
 public class MainActivity extends Activity implements OnClickListener {
 
-    private Button scanBtn, manualBarcode, PrefServerBtn;
+    private Button scanBtn, manualBarcode;
     private TextView formatTxt, contentTxt;
-    private TextView productsFound, productCode, productName, productNConsumerunit;
-    private EditText inputProduct, inputIP_SERVER, inputPort_SERVER;
+    private TextView productsFound;
     private EditText barcode_search;
     private String inputBarcode = null;
     public static String ErrorConnectingServer = "errorConnectionServer";
@@ -137,8 +136,9 @@ public class MainActivity extends Activity implements OnClickListener {
 
         Toast toast = Toast.makeText(
                 this,
-                "ERROR AL CONECTAR CON EL SERVIDOR:\n compruebe la conexión WIFI." +
-                        "\nContacte con su ADMINISTRADOR.",
+                "ERROR AL CONECTAR CON EL SERVIDOR:" +
+                        "\n compruebe la conexión WIFI." +
+                        "\nEn caso necesario, contacte con su departamento de Sistemas.",
                 Toast.LENGTH_LONG
         );
         toast.show();
@@ -195,7 +195,28 @@ public class MainActivity extends Activity implements OnClickListener {
                 startActivity(new Intent(this, MyPreferenceActivity.class));
                 return true;
             //About menu
-            case R.id.about:
+            case R.id.aboutAppSGCL:
+                Toast toast_aboutAppSGCL = Toast.makeText(
+                        this,
+                        "Esta aplicación móvil le permite buscar todos los productos del " +
+                                "sistema identificados por con el código de barras empleado " +
+                                "en la búsqueda.\n" +
+                                "Puede introducir el código de barras de " +
+                                "forma manual o automática (recuerde que debe tener " +
+                                "instalado en su sistema la aplicación Barcoe_Scanner).",
+                        Toast.LENGTH_LONG
+                );
+                toast_aboutAppSGCL.show();
+                return true;
+            case R.id.aboutConfiguration:
+                Toast toast_aboutConfiguration = Toast.makeText(
+                        this,
+                        "Su ADMINISTRADOR de sistemas, debería haberle entregado " +
+                                "la aplicación configurada con la IP y puerto del servidor.\n" +
+                                "En caso contrario, contacte con su departamento de Sistemas.",
+                        Toast.LENGTH_LONG
+                );
+                toast_aboutConfiguration.show();
                 return true;
             //Close program
             case R.id.exit:
@@ -308,11 +329,6 @@ public class MainActivity extends Activity implements OnClickListener {
                 return HttpRequest.get(urls[0]).accept("application/json").body();
             }
             catch(HttpRequest.HttpRequestException e) {
-                //throw new RuntimeException("ERROR AL CONECTAR CON EL SERVIDOR: " + e.toString());
-              //  throw new RuntimeException(e.getMessage());
-                //return null;
-                //productsFound.setText(e.toString());
-                //return "error";
                 return ErrorConnectingServer;
             }
         }
