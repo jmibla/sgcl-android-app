@@ -10,8 +10,11 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 /**
- * Created by maria on 15/5/15.
+ * User: Joaquín & María * Date: 12/03/15
+ * Time: 23:07
  */
+
+
 public class ProductAdapter extends BaseAdapter
 {
     private Context context;

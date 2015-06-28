@@ -3,8 +3,10 @@ package project_sgcl.sgclapp;
 import java.util.*;
 
 /**
- * Created by maria on 10/5/15.
+ * User: Joaquín & María * Date: 10/03/15
+ * Time: 15:58
  */
+
 public class Product
 {
     private int id;
